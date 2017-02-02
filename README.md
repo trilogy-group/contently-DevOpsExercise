@@ -59,7 +59,7 @@ See [init-database.sh](postgres/init-database.sh) for details.
 
 An index in elastic search keeps track of our archive of GIFs.
 
-[`GET http://localhost:9200/gifs/_search`](http://localhost:9200/gifs/search)
+[`GET http://localhost:9200/gifs/_search`](http://localhost:9200/gifs/_search)
 
 
 3. A backend service writen in Python Flask to serve the GIFs.
@@ -71,6 +71,64 @@ An index in elastic search keeps track of our archive of GIFs.
 
 [http://localhost:4567/](http://localhost:4567/)
 
+## Seeding Data
+
+In the `docker-compose` setup, the Postgres database will be automatically seeded with sample data. The code to do this is in [init-database.sh](postgres/init-database.sh).
+
+ElasticSearch data must be seeded manually. Use the following commands to seed data against ElasticSearch running in `docker-compose`:
+
+```
+curl -XPUT "http://localhost:9200/gifs" -d'
+{
+    "settings": {
+        "number_of_shards": 1
+    },
+    "mappings": {
+        "gif": {
+            "properties": {
+                "url": {
+                    "type": "string",
+                    "index": "no"
+                }
+            }
+        }
+    }
+}'
+```
+
+```
+curl -XPOST "http://localhost:9200/gifs/gif" -d'
+{
+    "url": "https://media.giphy.com/media/XIqCQx02E1U9W/giphy.gif"
+}'
+```
+
+```
+curl -XPOST "http://localhost:9200/gifs/gif" -d'
+{
+    "url": "https://media.giphy.com/media/3o7qDEq2bMbcbPRQ2c/giphy.gif"
+}'
+```
+
+```
+curl -XPOST "http://localhost:9200/gifs/gif" -d'
+{
+    "url": "http://www.gifbin.com/bin/122016/man-punches-kangaroo.gif"
+}'
+```
+
+```
+curl -XPOST "http://localhost:9200/gifs/gif" -d'
+{
+    "url": "http://p.fod4.com/p/media/3c64c0225d/6AkZwnwSlWQoma2Aa1Lz_Ice%20Skate%20Wall.gif"
+}'
+```
+
+If you would like to delete the data from ElasticSearch do the following:
+
+```
+curl -XDELETE "http://localhost:9200/gifs"
+```
 
 ## How Everything is Connected
 
