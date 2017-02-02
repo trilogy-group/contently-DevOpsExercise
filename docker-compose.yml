@@ -1,0 +1,39 @@
+version: '2'
+services:
+  elasticsearch:
+    image: "elasticsearch:5.2.0-alpine"
+    ports:
+      - "9200:9200"
+
+  postgres:
+    build: postgres/
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=example
+
+  backend:
+    build: backend/
+    ports:
+      - "5000:5000"
+    links:
+      - elasticsearch
+    environment:
+      - ELASTICSEARCH_HOST=elasticsearch
+
+  frontend:
+    build: frontend/
+    ports:
+      - "4567:4567"
+    links:
+      - backend
+      - postgres
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=example
+      - POSTGRES_HOST=postgres
+      - BACKEND_HOST=backend
+      - BACKEND_PORT=5000

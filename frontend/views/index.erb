@@ -1,0 +1,22 @@
+<!DOCTYPE html><html lang="en">
+<body>
+<div style="width: 100%; text-align: center; padding: 15px;">
+	It has been <span style="font-family: monospace; font-size: 4em;"><%= days_since_last_accident.to_s.rjust(3, '0') %></span> days since the last workplace accident.
+</div>
+<% if gifs.nil? %>
+	<div style="width: 100%; text-align: center; padding: 15px; text-color: red;">
+		Cannot load gifs!
+	</div>
+	<img src="https://media.giphy.com/media/haZOqHKz9tTfW/giphy.gif" style="display: block; padding: 10px; margin: auto;">
+<% elsif gifs.length == 0 %>
+	<div style="width: 100%; text-align: center; padding: 15px;">
+		No gifs available!
+	</div>
+	<img src="https://media.giphy.com/media/tyCN18Ey9Zdqo/giphy.gif" style="display: block; padding: 10px; margin: auto;">
+<% else %>
+	<% gifs.each do |gif| %>
+	<img src="<%= gif['url'] %>" style="display: block; padding: 10px; margin: auto;">
+	<% end %>
+<% end %>
+</body>
+</html>
