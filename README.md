@@ -156,6 +156,6 @@ Don’t worry about fancy DNS for any parts of the application, accessing it via
 
 ## Purpose of the Exercise
 
-The purpose of the extercise is to understand how you approach the problem, the decisions you make in the infrastructure, and your ability to use code to accomplish things.
+The purpose of the exercise is to understand how you approach the problem, the decisions you make in the infrastructure, and your ability to use code to accomplish things.
 
 Please timebox your effort to 2 to 4 hours. An incomplete solution is not failing the exercise.
